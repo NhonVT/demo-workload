@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    html {
+        font-size: 62.5%;
+    }
+    body {
+        @apply mx-auto text-base font-normal;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        font-family: "Epilogue", sans-serif;
+        background-color: rgba(238, 238, 238, 0.2);
+    }
+    input {
+        @apply outline-none;
+    }
+}
+
+.ant-input-number {
+    width: 100% !important;
+}
