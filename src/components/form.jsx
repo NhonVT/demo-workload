@@ -34,6 +34,7 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
     // const { mutateAsync } = useMutation(createForm);
 
     const submitHandler = async (values) => {
+        console.log("🚀 ~ file: form.jsx:37 ~ submitHandler ~ values:", values);
         const keyRandom = Math.floor(Math.random() * 1000000);
         const valueSubmit = {
             month: parseInt(values.month),
@@ -70,7 +71,7 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
                     <label htmlFor="month" className="font-semibold cursor-pointer">
                         Month
                     </label>
-                    <InputNumberForm
+                    {/* <InputNumberForm
                         min={1}
                         max={12}
                         name="month"
@@ -79,7 +80,8 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
                         id="month"
                         control={control}
                         type="number"
-                    ></InputNumberForm>
+                    ></InputNumberForm> */}
+                    <InputField name="month" defaultValue="" placeholder="Enter your month" id="month" control={control} type="text"></InputField>
                     {errors.month && <p className="mb-0 text-sm text-red-500">{errors.month.message}</p>}
                 </div>
                 <div className="flex flex-col gap-3 mb-5">
