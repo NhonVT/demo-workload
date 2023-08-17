@@ -78,10 +78,13 @@ const LayoutForm = () => {
     return (
         <div className="relative justify-center items-center w-full h-[100vh]">
             <div className="relative max-w-[80rem] m-auto">
-                <Button className="mb-4" type="primary" onClick={showModal}>
-                    Add
-                </Button>
-                <TableChart columns={columns} getColumnValues={getColumnValues} getAvg={getAvg} dataSourceTable={dataSourceTable} />
+                <TableChart
+                    showModal={showModal}
+                    columns={columns}
+                    getColumnValues={getColumnValues}
+                    getAvg={getAvg}
+                    dataSourceTable={dataSourceTable}
+                />
             </div>
 
             <ModalForm
