@@ -12,7 +12,7 @@ const schema = yup
     .object()
     .shape({
         month: yup.string().required("please enter your month"),
-        workload: yup.string().required("please enter your value"),
+        workload: yup.string().required("please enter your workload"),
     })
     .required();
 
@@ -57,8 +57,8 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
         setIsModalOpen(false);
         // await mutateAsync(values);
         reset({
-            month: 1,
-            workload: 0,
+            month: "",
+            workload: "",
         });
     };
 
@@ -74,20 +74,20 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
                         min={1}
                         max={12}
                         name="month"
-                        defaultValue={1}
+                        defaultValue=""
                         placeholder="Enter your month"
                         id="month"
                         control={control}
                         type="number"
                     ></InputNumberForm>
-                    {errors.month && <p className="text-sm text-red-500">{errors.month.message}</p>}
+                    {errors.month && <p className="mb-0 text-sm text-red-500">{errors.month.message}</p>}
                 </div>
                 <div className="flex flex-col gap-3 mb-5">
                     <label htmlFor="value" className="font-semibold cursor-pointer">
                         Value
                     </label>
                     <InputNumberForm
-                        defaultValue={0}
+                        defaultValue=""
                         min={0}
                         name="workload"
                         placeholder="Enter your workload"
@@ -95,7 +95,7 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
                         control={control}
                         type="number"
                     ></InputNumberForm>
-                    {errors.value && <p className="text-sm text-red-500">{errors.value.message}</p>}
+                    {errors.workload && <p className="mb-0 text-sm text-red-500">{errors.workload.message}</p>}
                 </div>
                 <button
                     className={`w-full p-5 mt-5 font-semibold text-white bg-blue-500 rounded-lg ${isSubmitting ? "opacity-50" : ""}`}
