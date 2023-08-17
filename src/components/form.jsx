@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useId } from "react";
+import React, { useId, useState } from "react";
 import InputField from "./input-form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -32,9 +32,9 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
     //     return await formApi.postForm(value);
     // };
     // const { mutateAsync } = useMutation(createForm);
+    const [inputValue, setInputValue] = useState("");
 
     const submitHandler = async (values) => {
-        console.log("🚀 ~ file: form.jsx:37 ~ submitHandler ~ values:", values);
         const keyRandom = Math.floor(Math.random() * 1000000);
         const valueSubmit = {
             month: parseInt(values.month),
@@ -61,6 +61,7 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
             month: "",
             workload: "",
         });
+        setInputValue("");
     };
 
     return (
@@ -81,7 +82,16 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
                         control={control}
                         type="number"
                     ></InputNumberForm> */}
-                    <InputField name="month" defaultValue="" placeholder="Enter your month" id="month" control={control} type="text"></InputField>
+                    <InputField
+                        inputValue={inputValue}
+                        setInputValue={setInputValue}
+                        name="month"
+                        defaultValue=""
+                        placeholder="Enter your month"
+                        id="month"
+                        control={control}
+                        type="text"
+                    ></InputField>
                     {errors.month && <p className="mb-0 text-sm text-red-500">{errors.month.message}</p>}
                 </div>
                 <div className="flex flex-col gap-3 mb-5">

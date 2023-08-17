@@ -4,14 +4,13 @@ import React, { useState } from "react";
 import { useController } from "react-hook-form";
 import { Input } from "antd";
 
-const InputField = ({ control, ...props }) => {
+const InputField = ({ inputValue, setInputValue, control, ...props }) => {
     const { field } = useController({
         control,
         name: props.name,
         defaultValue: "",
     });
 
-    const [inputValue, setInputValue] = useState("");
     const handleInputChange = (e) => {
         const newValue = e.target.value;
         if (/^(1[0-2]?|0?[1-9])$/.test(newValue) || newValue === "") {
