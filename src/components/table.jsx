@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "antd";
 
-const TableChart = ({ dataSourceTable, getAvg, columns, showModal, avg }) => {
-    // const [avg, setAvg] = useState(0);
+const TableChart = ({ dataSourceTable, columns, showModal, avg }) => {
     const handleOpenModal = () => {
         !!showModal && showModal();
     };
-
-    useEffect(() => {
-        // setAvg(getAvg("workload"));
-    }, [dataSourceTable]);
 
     return (
         <div className="relative w-full">

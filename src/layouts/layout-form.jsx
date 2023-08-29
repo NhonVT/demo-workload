@@ -12,7 +12,7 @@ const columns = [
         key: "month",
     },
     {
-        title: "value",
+        title: "Workload",
         dataIndex: "value",
         key: "value",
     },
@@ -21,18 +21,7 @@ const columns = [
 const LayoutForm = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [dataChart, setDataChart] = useState([]);
-    const [dataSourceTable, setDataSourceTable] = useState([
-        // {
-        //     key: "1",
-        //     month: 1,
-        //     value: 0,
-        // },
-        // {
-        //     key: "2",
-        //     month: 2,
-        //     value: 80,
-        // },
-    ]);
+    const [dataSourceTable, setDataSourceTable] = useState([]);
     const [avg, setAvg] = useState(0);
 
     const showModal = () => {
@@ -79,13 +68,7 @@ const LayoutForm = () => {
     return (
         <div className="relative justify-center items-center w-full h-[100vh]">
             <div className="relative max-w-[80rem] m-auto">
-                <TableChart
-                    showModal={showModal}
-                    columns={columns}
-                    getColumnValues={getColumnValues}
-                    dataSourceTable={dataSourceTable}
-                    avg={avg}
-                />
+                <TableChart showModal={showModal} columns={columns} getColumnValues={getColumnValues} dataSourceTable={dataSourceTable} avg={avg} />
             </div>
 
             <ModalForm
@@ -96,7 +79,6 @@ const LayoutForm = () => {
                 dataSourceTable={dataSourceTable}
                 setDataSourceTable={setDataSourceTable}
                 setAvg={setAvg}
-                avg={avg}
             />
             <Chart data={dataChart} />
         </div>

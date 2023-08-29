@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, {useState} from "react";
+import React, { useState } from "react";
 import InputField from "./input-form";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {useMutation} from "react-query";
+import { useMutation } from "react-query";
 import InputNumberForm from "./input-number";
 import formApi from "../api/form-post.js";
 
@@ -16,10 +16,10 @@ const schema = yup
     })
     .required();
 
-const FormChart = ({setDataSourceTable, setIsModalOpen, dataSourceTable, setAvg, avg}) => {
+const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable, setAvg }) => {
     const {
         handleSubmit,
-        formState: {errors, isValid, isSubmitting},
+        formState: { errors, isValid, isSubmitting },
         control,
         reset,
     } = useForm({
@@ -57,22 +57,14 @@ const FormChart = ({setDataSourceTable, setIsModalOpen, dataSourceTable, setAvg,
 
         setIsModalOpen(false);
         const { key, ...rest } = valueSubmit;
-        await mutateAsync(
-            [
-                ...dataSourceTable.map(item => ({month: item.month, value: item.value})), rest
-            ],{
-                onSuccess: (data) => {
-                    console.log('💩 =>  => onSuccess => 66 (): '
-                    , data.result);
-                    setAvg(data.result);
-                    console.log('💩 => avg => onSuccess => 68 (): '
-                    ,avg );
-                },
-                onError: (error) => {
-                   console.log(' error =>',error);
-                },
-            }
-        );
+        await mutateAsync([...dataSourceTable.map((item) => ({ month: item.month, value: item.value })), rest], {
+            onSuccess: (data) => {
+                setAvg(data?.data?.result);
+            },
+            onError: (error) => {
+                console.log(" error =>", error);
+            },
+        });
         reset({
             month: "",
             value: "",
@@ -130,8 +122,7 @@ const FormChart = ({setDataSourceTable, setIsModalOpen, dataSourceTable, setAvg,
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? (
-                        <div
-                            className="w-5 h-5 mx-auto border-2 border-t-2 border-white rounded-full border-t-transparent animate-spin"></div>
+                        <div className="w-5 h-5 mx-auto border-2 border-t-2 border-white rounded-full border-t-transparent animate-spin"></div>
                     ) : (
                         "Add"
                     )}
