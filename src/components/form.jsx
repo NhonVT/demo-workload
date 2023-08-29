@@ -41,35 +41,34 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable, setAvg
             value: parseInt(values.value),
             key: keyRandom,
         };
-        setDataSourceTable((prev) => {
-            const isExist = prev.find((item) => item.month === valueSubmit.month);
-            if (isExist) {
-                return prev.map((item) => {
-                    if (item.month === valueSubmit.month) {
-                        return valueSubmit;
-                    }
-                    return item;
-                });
-            } else {
-                return [...prev, valueSubmit].sort((a, b) => a.month - b.month);
-            }
-        });
-
-        setIsModalOpen(false);
         const { key, ...rest } = valueSubmit;
         await mutateAsync([...dataSourceTable.map((item) => ({ month: item.month, value: item.value })), rest], {
             onSuccess: (data) => {
                 setAvg(data?.data?.result);
+                setDataSourceTable((prev) => {
+                    const isExist = prev.find((item) => item.month === valueSubmit.month);
+                    if (isExist) {
+                        return prev.map((item) => {
+                            if (item.month === valueSubmit.month) {
+                                return valueSubmit;
+                            }
+                            return item;
+                        });
+                    } else {
+                        return [...prev, valueSubmit].sort((a, b) => a.month - b.month);
+                    }
+                });
+                setIsModalOpen(false);
+                reset({
+                    month: "",
+                    value: "",
+                });
+                setInputValue("");
             },
             onError: (error) => {
                 console.log(" error =>", error);
             },
         });
-        reset({
-            month: "",
-            value: "",
-        });
-        setInputValue("");
     };
 
     return (
