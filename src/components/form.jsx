@@ -1,25 +1,25 @@
 /* eslint-disable no-unused-vars */
-import React, { useId, useState } from "react";
+import React, {useState} from "react";
 import InputField from "./input-form";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useMutation } from "react-query";
-import formApi from "../api/form-post";
+import {useMutation} from "react-query";
 import InputNumberForm from "./input-number";
+import formApi from "../api/form-post.js";
 
 const schema = yup
     .object()
     .shape({
         month: yup.string().required("please enter your month"),
-        workload: yup.string().required("please enter your workload"),
+        value: yup.string().required("please enter your workload"),
     })
     .required();
 
-const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
+const FormChart = ({setDataSourceTable, setIsModalOpen, dataSourceTable, setAvg, avg}) => {
     const {
         handleSubmit,
-        formState: { errors, isValid, isSubmitting },
+        formState: {errors, isValid, isSubmitting},
         control,
         reset,
     } = useForm({
@@ -28,20 +28,19 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
         defaultValues: {},
     });
 
-    // let createForm = async (value) => {
-    //     return await formApi.postForm(value);
-    // };
-    // const { mutateAsync } = useMutation(createForm);
+    let createForm = async (value) => {
+        return await formApi.postForm(value);
+    };
+    const { mutateAsync } = useMutation(createForm);
     const [inputValue, setInputValue] = useState("");
 
     const submitHandler = async (values) => {
         const keyRandom = Math.floor(Math.random() * 1000000);
         const valueSubmit = {
             month: parseInt(values.month),
-            workload: parseInt(values.workload),
+            value: parseInt(values.value),
             key: keyRandom,
         };
-
         setDataSourceTable((prev) => {
             const isExist = prev.find((item) => item.month === valueSubmit.month);
             if (isExist) {
@@ -55,11 +54,28 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
                 return [...prev, valueSubmit].sort((a, b) => a.month - b.month);
             }
         });
+
         setIsModalOpen(false);
-        // await mutateAsync(values);
+        const { key, ...rest } = valueSubmit;
+        await mutateAsync(
+            [
+                ...dataSourceTable.map(item => ({month: item.month, value: item.value})), rest
+            ],{
+                onSuccess: (data) => {
+                    console.log('💩 =>  => onSuccess => 66 (): '
+                    , data.result);
+                    setAvg(data.result);
+                    console.log('💩 => avg => onSuccess => 68 (): '
+                    ,avg );
+                },
+                onError: (error) => {
+                   console.log(' error =>',error);
+                },
+            }
+        );
         reset({
             month: "",
-            workload: "",
+            value: "",
         });
         setInputValue("");
     };
@@ -101,20 +117,21 @@ const FormChart = ({ setDataSourceTable, setIsModalOpen, dataSourceTable }) => {
                     <InputNumberForm
                         defaultValue=""
                         min={0}
-                        name="workload"
+                        name="value"
                         placeholder="Enter your workload"
-                        id="workload"
+                        id="value"
                         control={control}
                         type="number"
                     ></InputNumberForm>
-                    {errors.workload && <p className="mb-0 text-sm text-red-500">{errors.workload.message}</p>}
+                    {errors.value && <p className="mb-0 text-sm text-red-500">{errors.value.message}</p>}
                 </div>
                 <button
                     className={`w-full p-5 mt-5 font-semibold text-white bg-blue-500 rounded-lg ${isSubmitting ? "opacity-50" : ""}`}
                     disabled={isSubmitting}
                 >
                     {isSubmitting ? (
-                        <div className="w-5 h-5 mx-auto border-2 border-t-2 border-white rounded-full border-t-transparent animate-spin"></div>
+                        <div
+                            className="w-5 h-5 mx-auto border-2 border-t-2 border-white rounded-full border-t-transparent animate-spin"></div>
                     ) : (
                         "Add"
                     )}

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button } from "antd";
 
-const TableChart = ({ dataSourceTable, getAvg, columns, showModal }) => {
-    const [avg, setAvg] = useState(0);
-
+const TableChart = ({ dataSourceTable, getAvg, columns, showModal, avg }) => {
+    // const [avg, setAvg] = useState(0);
     const handleOpenModal = () => {
         !!showModal && showModal();
     };
 
     useEffect(() => {
-        setAvg(getAvg("workload"));
+        // setAvg(getAvg("workload"));
     }, [dataSourceTable]);
 
     return (

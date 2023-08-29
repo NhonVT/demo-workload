@@ -12,9 +12,9 @@ const columns = [
         key: "month",
     },
     {
-        title: "Workload",
-        dataIndex: "workload",
-        key: "workload",
+        title: "value",
+        dataIndex: "value",
+        key: "value",
     },
 ];
 
@@ -22,17 +22,18 @@ const LayoutForm = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [dataChart, setDataChart] = useState([]);
     const [dataSourceTable, setDataSourceTable] = useState([
-        {
-            key: "1",
-            month: 1,
-            workload: 0,
-        },
-        {
-            key: "2",
-            month: 2,
-            workload: 80,
-        },
+        // {
+        //     key: "1",
+        //     month: 1,
+        //     value: 0,
+        // },
+        // {
+        //     key: "2",
+        //     month: 2,
+        //     value: 80,
+        // },
     ]);
+    const [avg, setAvg] = useState(0);
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -55,19 +56,19 @@ const LayoutForm = () => {
     };
 
     useEffect(() => {
-        const workload = getColumnValues("workload");
+        const value = getColumnValues("value");
         const months = getColumnValues("month");
         const newData = [];
-        for (let i = 0; i < workload.length; i++) {
+        for (let i = 0; i < value.length; i++) {
             newData.push(
                 {
                     month: months[i].toString(),
-                    workload: workload[i],
-                    category: "workload",
+                    value: value[i],
+                    category: "value",
                 },
                 {
                     month: months[i].toString(),
-                    workload: getAvg("workload"),
+                    value: getAvg("value"),
                     category: "avg",
                 }
             );
@@ -82,8 +83,8 @@ const LayoutForm = () => {
                     showModal={showModal}
                     columns={columns}
                     getColumnValues={getColumnValues}
-                    getAvg={getAvg}
                     dataSourceTable={dataSourceTable}
+                    avg={avg}
                 />
             </div>
 
@@ -94,6 +95,8 @@ const LayoutForm = () => {
                 handleCancel={handleCancel}
                 dataSourceTable={dataSourceTable}
                 setDataSourceTable={setDataSourceTable}
+                setAvg={setAvg}
+                avg={avg}
             />
             <Chart data={dataChart} />
         </div>

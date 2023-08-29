@@ -7,9 +7,10 @@ const Chart = ({ data }) => {
     const config = {
         data,
         xField: "month",
-        yField: "workload",
+        yField: "value",
         seriesField: "category",
         color: ["#1979C9", "#D62A0D", "#FAA219"],
+        smooth: true,
     };
 
     return (
